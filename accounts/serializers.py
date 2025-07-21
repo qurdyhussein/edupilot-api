@@ -17,18 +17,18 @@ class StudentLoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-    reg_number = data.get('reg_number')
-    password = data.get('password')
+        reg_number = data.get('reg_number')
+        password = data.get('password')
 
-    student = Student.objects.filter(reg_number=reg_number).first()
-    if student is None:
-        raise serializers.ValidationError("Invalid registration number")
+        student = Student.objects.filter(reg_number=reg_number).first()
+        if student is None:
+            raise serializers.ValidationError("Invalid registration number")
 
-    if not student.check_password(password):
-        raise serializers.ValidationError("Incorrect password")
+        if not student.check_password(password):
+            raise serializers.ValidationError("Incorrect password")
 
-    return {
-        'reg_number': student.reg_number,
-        'full_name': student.full_name,
-        'institution_code': student.institution_code,
-    }
+        return {
+            'reg_number': student.reg_number,
+            'full_name': student.full_name,
+            'institution_code': student.institution_code,
+        }
